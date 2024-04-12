@@ -1,0 +1,13 @@
+{% load wagtailimages_tags %}
+<div class="col-md-6 ">
+    <div class="image">
+        <img src="{{ page.image_text_1.url }}" alt="{{ page.image_text_caption1 }}">
+        <p>{{ page.image_text_caption1 }}</p>
+    </div>
+</div>
+<div class="col-md-6 ">
+    <div class="image">
+        <img src="{{ page.image_text_2.url }}" alt="{{ page.image_text_caption2 }}">
+        <p>{{ page.image_text_caption2 }}</p>
+    </div>
+</div>

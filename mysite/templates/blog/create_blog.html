@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="contact">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-custom">Create Blog</button>
+    </form>
+</div>
+{% else %}
+    <h1 class="text-center">You must be logged in to create a blog.</h1>
+{% endif %}
+{% endblock %}

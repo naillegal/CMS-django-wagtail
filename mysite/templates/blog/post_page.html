@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags comments %}
+{% load blogapp_tags %}
+{% load static %}
+{% block content %}
+<!--post-default-->
+<section class="section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 mb-20">
+                <!--Post-single-->
+                {% if request.user.is_authenticated and request.user.is_superuser or page.author == request.user.username %}
+                <a href="{% url 'edit_blog' year=page.post_date|date:"Y" month=page.post_date|date:"n" day=page.post_date|date:"j" slug=page.slug %}" class="btn-custom2">Edit Blog</a>
+                    <a href="{% url 'delete_blog' year=page.post_date|date:"Y" month=page.post_date|date:"n" day=page.post_date|date:"j" slug=page.slug %}" class="btn-custom">Delete Blog</a>
+                {% endif %}
+                <div class="post-single">
+                    <div class="row">
+                        {% if page.header_image %}
+                        <div class="col-md-12 ">
+                            <div class="image">
+                                <img src="{{ page.header_image.url }}" alt="">
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="post-single-content">
+                        <h4>{{ page.title }} </h4>
+                        <div class="post-single-info">
+                            <ul class="list-inline">
+                                <li><a href="#"><img src="{% static 'assets/img/author/1.jpg' %}" alt=""></a>
+                                </li>
+                                <li><a href="#">{{ page.author }}</a></li>
+                                <li class="dot"></li>
+                                <li>{{ page.post_date|date:"F d, Y" }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    {% include "blog/block/streamfield.html"%}
+
+                    <div class="post-single-footer">
+                        <div class="tags">
+                            <ul class="list-inline">
+                              {% for tag in page.tags.all %}
+                                <li>
+                                    <a href="#">{{ tag }}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="social-media">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="#" class="color-facebook">
+                                        <i class="fab fa-facebook"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="color-instagram">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="color-twitter">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="color-youtube">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="color-pinterest">
+                                        <i class="fab fa-pinterest"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!--/-->
+                {% if page.file %}
+                <div class="text-center">
+                    <a href="{{ page.file.url }}" download>Download file: {{ page.file.name|slice:"11:" }}</a>
+                </div>
+                {% else %}
+                <div class="text-center">
+                    <p>No file available for download.</p>
+                </div>
+                {% endif %}
+                <br>
+                <br>
+                <!--widget-comments-->
+                <div class="widget mb-50">
+                    
+                    <ul class="widget-comments">
+                      {% render_comment_list for page %}
+                    </ul>
+                    <!--Leave-comments-->
+                    <div class="title">
+                        <h5>Leave a Reply</h5>
+                      </div>
+                      {% render_comment_form for page %}
+                  </div>
+
+            </div>
+            <div class="col-lg-4 max-width">
+              {% post_categories_list %}
+              {% post_tag_list %}
+            </div>
+        </div>
+    </div>
+</section><!--/-->
+{% endblock %}

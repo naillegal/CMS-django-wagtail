@@ -1,0 +1,20 @@
+{% load wagtailcore_tags %}
+{% block content %}
+<div class="post-single-body">
+    {% if page.paragraph %}
+        <p>{{ page.paragraph }}</p>
+        <br>
+    {% endif %}
+    <div class="row">
+        {% if page.image_text_1 %}
+            {% include "components/image_text.html" %}
+        {% endif %}
+    </div>
+    {% if page.quotes %}
+        <div class="quote">
+            {% include "components/quote.html" %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
